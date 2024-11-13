@@ -1,4 +1,3 @@
-// DataItem.hpp
 #ifndef DATAITEM_HPP
 #define DATAITEM_HPP
 
