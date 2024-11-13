@@ -1,4 +1,3 @@
-// FileHandler.hpp
 #ifndef FILEHANDLER_HPP
 #define FILEHANDLER_HPP
 
