@@ -52,7 +52,6 @@ public:
                   << std::setw(28) << "Liberdade de Escolha"
                   << std::setw(25) << "Generosidade" << "\n"<<std::endl;
 
-        // Imprime os dados com alinhamento
         for (const auto &item : data) {
             std::cout <<  std::left<< std::setw(30) << item.pais
                       << std::right<< std::setw(15) << item.continente
