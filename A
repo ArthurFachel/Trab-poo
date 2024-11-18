@@ -1,0 +1,84 @@
+// FileHandler.hpp
+#ifndef FILEHANDLER_HPP
+#define FILEHANDLER_HPP
+#include <iostream>
+#include <vector>
+#include <fstream>
+#include <sstream>
+#include <iomanip>
+#include "DataItem.hpp"
+
+class FileHandler {
+public:
+    static std::vector<DataItem> readDataFromFile(const std::string &filename) {
+        std::vector<DataItem> data;
+        std::ifstream file(filename);
+        std::string line;
+
+        // Ignora a primeira linha (cabeçalhos)
+        std::getline(file, line);
+
+        while (std::getline(file, line)) {
+            std::istringstream iss(line);
+            std::string pais, continente;
+            double felicidade, rendaPerCapita, expectativaDeVida, liberdadeDeEscolha, generosidade;
+
+            // Lê cada coluna de uma linha e cria um objeto DataItem
+            if (std::getline(iss, pais, ',') &&
+                std::getline(iss, continente, ',') &&
+                (iss >> felicidade).ignore() &&
+                (iss >> rendaPerCapita).ignore() &&
+                (iss >> expectativaDeVida).ignore() &&
+                (iss >> liberdadeDeEscolha).ignore() &&
+                (iss >> generosidade).ignore()) {
+
+                data.emplace_back(pais, continente, felicidade, rendaPerCapita,
+                                  expectativaDeVida, liberdadeDeEscolha, generosidade);
+            }
+        }
+        file.close();
+        return data;
+    }
+
+    static void printData(const std::vector<DataItem> &data) {
+        // Define a largura das colunas para cada campo
+        const int widthPais = 15;
+        const int widthContinente = 15;
+        const int widthFelicidade = 10;
+        const int widthRenda = 15;
+        const int widthExpectativa = 20;
+        const int widthLiberdade = 20;
+        const int widthGenerosidade = 15;
+
+        // Imprime os cabeçalhos com largura fixa
+        std::cout << std::left 
+                  << std::setw(widthPais) << "País"
+                  << std::setw(widthContinente) << "Continente"
+                  << std::setw(widthFelicidade) << "Felicidade"
+                  << std::setw(widthRenda) << "Renda per Capita"
+                  << std::setw(widthExpectativa) << "Expectativa de Vida"
+                  << std::setw(widthLiberdade) << "Liberdade de Escolha"
+                  << std::setw(widthGenerosidade) << "Generosidade"
+                  << '\n';
+        std::cout <<" AAAAAAAAAAAAAA "<<std::endl;
+        // Linha separadora
+        std::cout << std::string(widthPais + widthContinente + widthFelicidade + widthRenda 
+                                 + widthExpectativa + widthLiberdade + widthGenerosidade, '-') 
+                  << '\n';
+
+        // Imprime cada linha de dados com a mesma largura de coluna
+        for (const auto &item : data) {
+            std::cout << std::left
+                      << std::setw(widthPais) << item.pais
+                      << std::setw(widthContinente) << item.continente
+                      << std::setw(widthFelicidade) << item.felicidade
+                      << std::setw(widthRenda) << item.rendaPerCapita
+                      << std::setw(widthExpectativa) << item.expectativaDeVida
+                      << std::setw(widthLiberdade) << item.liberdadeDeEscolha
+                      << std::setw(widthGenerosidade) << item.generosidade
+                      << '\n';
+        }
+    }
+};
+
+#endif
